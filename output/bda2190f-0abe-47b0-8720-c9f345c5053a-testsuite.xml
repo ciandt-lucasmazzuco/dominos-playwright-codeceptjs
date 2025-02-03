@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<ns2:test-suite xmlns:ns2='urn:model.allure.qatools.yandex.ru' start='1738269334199' stop='1738269337906'>
+    <name>Create the Account:</name>
+    <title>Create the Account:</title>
+    <test-cases>
+        <test-case start='1738269336208' status='failed' stop='1738269337590'>
+            <name>Registering First User</name>
+            <title>Registering First User</title>
+            <labels>
+                <label name='language' value='javascript'/>
+                <label name='framework' value='codeceptjs'/>
+            </labels>
+            <parameters/>
+            <steps/>
+            <attachments>
+                <attachment title='Main session - Last Seen Screenshot' source='891c1654-0b9a-4999-8fe5-cc2b35600be9-attachment.png' type='image/png' size='4331'/>
+            </attachments>
+            <failure>
+                <message>createAccountPage.openLoginPage is not a function</message>
+                <stack-trace>TypeError: createAccountPage.openLoginPage is not a function
+                    at Test.&lt;anonymous> (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/test/login/testCreateAccount.js:16:21)
+                    at test.fn (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/codeceptjs/lib/scenario.js:90:14)
+                    at callFnAsync (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runnable.js:392:21)
+                    at Runnable.run (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runnable.js:336:7)
+                    at Runner.runTest (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:677:10)
+                    at /Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:800:12
+                    at next (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:592:14)
+                    at /Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:602:7
+                    at next (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:485:14)
+                    at cbHookRun (/Users/lucas.mazzuco/Documents/repos/WebAutomationAlsea/node_modules/mocha/lib/runner.js:550:7)</stack-trace>
+            </failure>
+        </test-case>
+    </test-cases>
+</ns2:test-suite>
