@@ -1,59 +1,66 @@
 const { I } = inject();
 
 const locators = {
-  btnIniciarSesion: { role: "link", name: "Iniciar Sesión" },
-  txtIniciarSesion: { role: "heading", name: "Iniciar sesión" },
-  fieldEmail: (email) => ({ role: 'textbox', name: `Correo Electrónico: ${email || ''}` }),
-  fieldPassword: (password) => ({ role: 'textbox', name: `Contraseña: ${password || ''}` }),
-  btnIniciarSesionParaEstaOrden: {
-    role: "button",
-    name: "Iniciar Sesión Para Esta Orden",
-  },
-  lblUserLogged: { label: "primary" },
+  btnIniciarSesion: '[data-quid="profile-action--login"]',
+  lblEmailField: { role: "textbox", name: "E-mail" },
+  fieldEmail: () => '#Email',
+  fieldPassword: () => '#Password',
+  btnIniciarSesionParaEstaOrden: '[data-quid="pizza-profile-login-button-login-once"]',
   welcomeMessage: { css: '[aria-label="primary"]' },
-
-  txtInvalidEmailMessage: {
-    xpath: "//p[contains(text(), 'No pudimos localizar a un perfil Pizza')]", },
-    btnFinishSession: (userName) => ({ role: 'link', name: `¿No eres ${userName}? Cerrar Sesión`}),
+  userWasLogged: '.js-loggedInUserName',
+  txtInvalidCredentialsErrorMessage: '.errorText',
+  btnFinishSessionLogoutButton: '[data-quid="nav-sign-out-button"]',
 };
 
 class LoginAccountPage {
   openLoginPage() {
-    I.amOnPage("/");
-    I.waitForElement(locators.btnIniciarSesion, 10);
-    I.click(locators.btnIniciarSesion);
+    try {
+      I.amOnPage("https://www-alsea.preprod.golo03.dominos.com/?marketUrl=dominospizza.es");
+      I.waitForElement('body', 30); 
+      pause();
+      I.waitForElement(locators.btnIniciarSesion, 30);
+      I.seeElement(locators.btnIniciarSesion, 30);
+      I.click(locators.btnIniciarSesion);
+
+    } catch (error) {
+      console.error('Error to load the login page:', error.message);
+      
+      I.saveScreenshot('login_page_error.png');
+      
+      throw new Error(`Failed to load the login page: ${error.message}`);
+    }
   }
 
-  fillTheLoginCredentials(email, password) {
-    I.waitForElement(locators.emailField, 5);
-    I.fillField(locators.fieldEmail(email), email);
-    I.fillField(locators.fieldPassword(password), password);    
+  fillTheLoginCredentials(credentials) {
+    const { email, password } = credentials;
+    I.waitForElement(locators.lblEmailField, 30);
+    I.seeElement(locators.lblEmailField);
+    I.fillField(locators.fieldEmail(), email);
+    I.fillField(locators.fieldPassword(), password);
   }
 
   clickOnTheStartSession() {
-    I.waitForElement(locators.btnIniciarSesionParaEstaOrden, 10);
+    I.waitForElement(locators.btnIniciarSesionParaEstaOrden, 30);
     I.click(locators.btnIniciarSesionParaEstaOrden);
   }
 
   verifyIfUserWasLogged(userName) {
     I.waitForElement(locators.welcomeMessage);
-    I.seeTitleEquals(`Hola, ${userName}.`, locators.welcomeMessage);
+    I.seeElement(locators.userWasLogged);
+    I.see(userName, locators.userWasLogged);
   }
 
-  verifyInvalidLoginValidationMessage() {
-    I.waitForElement(locators.txtInvalidEmailMessage, 10);
-    I.seeTextEquals(
-      "No pudimos localizar a un perfil Pizza con esa combinación de correo " +
-        "electrónico y contraseña. Por favor, asegúrese de que está utilizando " +
-        "la dirección de correo electrónico asociada con su Perfil de Pizza .",
-      locators.txtInvalidEmailMessage);
+  verifyInvalidLoginValidationMessage(invalidMessage) {
+    I.waitForElement(locators.txtInvalidCredentialsErrorMessage, 30);
+    I.see(invalidMessage, locators.txtInvalidCredentialsErrorMessage);
   }
 
-  clickOnFinishSession(userName) {
-    I.waitForElement(locators.btnFinishSession(userName), 10);
-    I.click(locators.btnFinishSession(userName));
-    I.see(locators.btnIniciarSesion, 10);
+  clickOnFinishSession() {
+    I.waitForElement(locators.btnFinishSessionLogoutButton, 30);
+    I.click(locators.btnFinishSessionLogoutButton);
+    I.waitForElement(locators.btnIniciarSesion, 30);
+    I.seeElementInDOM(locators.btnIniciarSesion);
   }
 };
 
-module.exports = LoginAccountPage;
+module.exports = new LoginAccountPage();

@@ -1,17 +1,15 @@
-const EditUserPage = require("./pages/editUserPage/editUserPage");
-
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
-  tests: "./test/login/test*.js",
+  tests: "./test/test*.js",
   output: "./output",
   helpers: {
     Playwright: {
       browser: "chromium",
-      url: "https://www.dominos.com.mx",
+      url: "https://www-alsea.preprod.golo03.dominos.com/?marketUrl=dominospizza.es",
       show: true,
       devtools: true,
-      waitForTimeout: 5000,
-      trace: true,
+      waitForTimeout: 10000,
+      trace: false,
       video: false,
       launchOptions: {
         args: ["--disable-geolocation"],
