@@ -49,4 +49,4 @@ class EditUserPage {
   }
 }
 
-module.exports = EditUserPage;
+module.exports = new EditUserPage();

@@ -1,0 +1,15 @@
+# Ignore node_modules Folder
+node_modules/
+
+# Ignore Log Folders
+*.log
+
+# Ignore System Folders
+.DS_Store
+Thumbs.db
+
+# Ignore Environment Folders
+.env
+
+# Ignore Output
+output/
