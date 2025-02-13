@@ -1,13 +1,157 @@
+const { I } = inject();
+import {Assertion } from 'chai';
+
 const locators = {
-  
+  btnMenuCarta: '[data-quid="main-navigation-menu"]',
+  pizzaOption: '[data-quid="entree-title-specialtypizza"]',
+  btnClickOnPizzaOption: '[data-quid="entree-title-Pizza"]',
+  selectThePizza: (pizzaName) => `a.btn[data-dpz-track-evt-name="Customize CTA | ${pizzaName}"]`,
+  addPizzaButton: 'a.btn.media__btn.js-customize[data-dpz-track-evt-name^="Customize CTA"]',
+  crearTuPizzaTitle: 'h1[data-quid="generic-card-overlay-title"]',
+  btnAddPizza: 'button[data-quid="add-pizzabuilder-button"]',
+  btnContinuarToOrderPizza: 'a[data-quid="order-checkout-button"]',
+  txtCarrito: '[data-quid="cart-title"]',
+  txtPizzaAddedToCart: 'a[id^="variant_"]',
+  btnContinueCheckout: 'a[data-quid="continue-checkout-btn"]',
+  btnVerPromos: '//button[contains(text(), "Ver Promos")]',
+  btnContinuarPopUpVerPromos: '//button[contains(text(), "Continuar")]',
+  btnContinuarElPedido: 'a[data-quid="continue-checkout-btn"]',
+  txtPopUpOrderDetails: '#js-modalHeader',
+  btnContinuarPopUpOrderDetails: '.js-sam-continue',
+
+  lblPaymentForm: '[data-quid="payment-type-form"]',
+  optPaymentWithDatafono: '[data-quid="payment-doordebit"]', 
+  optPaymentWithBizum: '[data-quid="payment-adyen3"]',
+  btnPagarYFinalizar: '[data-quid="payment-order-now"]',
+
+  fieldCardNumber: () => 'input[data-fieldtype="encryptedCardNumber"]',
+  fieldExpirationDate: () => 'input[aria-label="Fecha de expiración"]',
+  fieldSecurityCode: () => 'input[data-fieldtype="encryptedSecurityCode"]',
+  fieldCardName: () => 'input[name="holderName"]',
+
+  btnPagar: 'button.adyen-checkout__button.adyen-checkout__button--pay',
+
+
 };
 
 class OrderAPizzaPage {
-  openLoginPage() {
-    I.amOnPage('/');
-    I.waitForElement(locators.btnLoginLink, 10);
-    I.doubleClick(locators.btnLoginLink);
-  }
-}
+    priceOnShoppingCart = '';
 
-module.exports = new OrderAPizzaPage();
+  clickOnMenuCarta() {
+    I.click(locators.btnMenuCarta);
+    I.waitForElement(locators.pizzaOption, 30);
+    I.seeInField(locators.pizzaOption, "Pizzas");
+  }
+   
+  clickOnPizzaOption() {
+    I.click(locators.pizzaOption);
+    I.waitForElement(locators.addPizzaButton, 30);
+    I.seeElement(locators.addPizzaButton);
+  }
+
+  selectYourPizza(pizzaName) {
+    I.click(locators.selectThePizza(pizzaName));
+  }
+
+  editYourPizza(pizzaName) {
+    I.waitForElement(locators.crearTuPizzaTitle, 30);
+    I.see((`Crea tu Pizza ${pizzaName}`).toUpperCase(), locators.crearTuPizzaTitle);
+  }
+
+  clickOnAddPizza() {
+    I.waitForElement(locators.btnAddPizza, 30);
+    I.click(locators.btnAddPizza);
+  }
+
+  async clickOnContinue() {
+    I.waitForElement(locators.btnContinuarToOrderPizza, 30);
+    I.click(locators.btnContinuarToOrderPizza);
+    I.waitForElement(locators.txtCarrito, 30);
+    I.see('CARRITO', locators.txtCarrito);
+
+    priceOnShoppingCart = await I.grabTextFrom('td.price');
+    console.log('price:' + priceOnShoppingCart);
+
+    return priceOnShoppingCart;
+  }
+
+  validatePizzaIsOnShoppingCart(pizzaName) {
+    I.waitForElement(locators.txtPizzaAddedToCart, 30);
+
+    I.grabTextFrom(locators.txtPizzaAddedToCart).then((pizzaAddedToCart) => {
+    I.see(pizzaName, pizzaAddedToCart);
+  });
+    I.say(`The pizza "${pizzaName}" is being displayed on the cart!`);
+  }
+
+  clickOnContinuarCheckout() {
+    I.click(locators.btnContinueCheckout);
+   
+    I.wait(1);
+
+    if (I.seeElement(locators.btnVerPromos)) {
+      I.click(locators.btnContinuarPopUpVerPromos);
+      I.waitForElement(locators.txtPopUpOrderDetails, 30);
+      I.click(locators.btnContinuarPopUpOrderDetails);
+    } else {
+      I.click(locators.btnContinuarElPedido);
+    }
+  }
+
+  confirmTheAddress() {
+    // TO DO 
+  }
+
+  chooseThePaymentMethod(paymentMethod) {
+    I.scrollTo(locators.btnPagarYFinalizar);
+    I.waitForElement(locators.btnPagarYFinalizar, 30);
+
+    if(paymentMethod == 'Con datafono') {
+      I.click(locators.optPaymentWithDatafono);
+    } else if (paymentMethod == 'Bizum') {
+      I.click(locators.optPaymentWithBizum);
+    }
+  }
+
+  clickOnPagarYFinalizar() {
+    I.click(locators.btnPagarYFinalizar);
+  }
+
+  fillInTheCardCredentials(cardCredentials) {
+    const { number, expirationDate, securityCode, tarjetaName } = cardCredentials;
+    I.waitForElement(locators.btnPagar, 30);
+
+    I.switchTo('iframe[title="Utilice Iframe para el número de tarjeta"]');
+    I.fillField(locators.fieldCardNumber(), number);
+    I.switchTo();
+
+    I.switchTo('iframe[title="Utilice iframe para la fecha de caducidad"]');
+    I.fillField(locators.fieldExpirationDate(), expirationDate);
+    I.switchTo();
+
+    I.switchTo('iframe[title="Utilice iframe para el código de seguridad"]');
+    I.fillField(locators.fieldSecurityCode(), securityCode);
+    I.switchTo();
+
+    I.fillField(locators.fieldCardName(), tarjetaName);
+  }
+
+  clickOnPagar() {
+    I.click(locators.btnPagar);
+  }
+
+  async validateThePizzaIsBeingPrepared() {
+    I.waitForElement('td.price.itemDetails', 30);
+    const priceCheckoutPage = await I.grabTextFrom('td.price.itemDetails');
+    console.log('price:' + priceCheckoutPage);
+
+    Assertion.assert(priceOnShoppingCart === priceCheckoutPage, 
+      `The prices didn't match. On the Shopping Cart: ${priceOnShoppingCart}, On the Checkout Page: ${priceCheckoutPage}`);
+
+
+    //metodo de pagamento
+    //dados da store (telefono, direcion, metodo de envio)
+  }
+};
+
+export default new OrderAPizzaPage();

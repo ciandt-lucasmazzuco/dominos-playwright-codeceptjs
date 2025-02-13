@@ -1,4 +1,5 @@
 const createAccountPage = require("../../pages/accessPage/createAccountPage");
+const loginAccountPage = require("../../pages/accessPage/loginAccountPage");
 
 Feature('Create the Account');
 
@@ -13,7 +14,7 @@ Scenario("Registering First User", ({ I }) => {
     confirmPassword: "User@12345678",
   };
 
-  createAccountPage.openLoginPage();
+  loginAccountPage.openLoginPage();
   createAccountPage.openTheRegistrationModal();
   createAccountPage.fillRegisterFields(userData);
   createAccountPage.clickOnSaveRegister();

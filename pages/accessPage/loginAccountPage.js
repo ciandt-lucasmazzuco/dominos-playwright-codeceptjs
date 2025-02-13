@@ -15,7 +15,7 @@ const locators = {
 class LoginAccountPage {
   openLoginPage() {
     try {
-      I.amOnPage("https://www-alsea.preprod.golo03.dominos.com/?marketUrl=dominospizza.es");
+      I.amOnPage("/?marketUrl=dominospizza.es");
       I.waitForElement('body', 30); 
       pause();
       I.waitForElement(locators.btnIniciarSesion, 30);
@@ -25,7 +25,7 @@ class LoginAccountPage {
     } catch (error) {
       console.error('Error to load the login page:', error.message);
       
-      I.saveScreenshot('login_page_error.png');
+      I.saveScreenshot('loginPageError.png');
       
       throw new Error(`Failed to load the login page: ${error.message}`);
     }

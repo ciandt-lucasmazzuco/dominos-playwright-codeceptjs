@@ -19,12 +19,6 @@ const locators = {
 };
 
 class CreateAccountPage {
-  openLoginPage() {
-    I.amOnPage('https://www-alsea.preprod.golo03.dominos.com/?marketUrl=dominospizza.es');
-    I.waitForElement(locators.btnLoginLink, 10);
-    I.doubleClick(locators.btnLoginLink);
-  }
-
   openTheRegistrationModal() {
     I.waitForElement(locators.txtLoginModal, 10);
     I.click(locators.btnCreateAccount);
