@@ -5,7 +5,7 @@ exports.config = {
   helpers: {
     Playwright: {
       browser: "chromium",
-      url: "https://www-alsea.preprod.golo03.dominos.com/?marketUrl=dominospizza.es",
+      url: "https://www-alsea.preprod.golo03.dominos.com",
       show: true,
       devtools: true,
       waitForTimeout: 10000,
