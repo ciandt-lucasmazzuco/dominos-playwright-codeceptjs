@@ -31,8 +31,9 @@ Scenario("Order a pizza", ({ I }) => {
   orderPizzaPage.chooseThePaymentMethod('Bizum');
   orderPizzaPage.clickOnPagarYFinalizar();
   orderPizzaPage.fillInTheCardCredentials(cardCredentials);
-  // orderPizzaPage.fillInTheCardCredentials({number: '', expirationDate: '', securityCode: '', tarjetaName: '' });
   orderPizzaPage.clickOnPagar();
   orderPizzaPage.validateThePizzaIsBeingPrepared();
-  I.saveScreenshot("selectYourPizzaPage.png");
+  orderPizzaPage.validateThePizzaPriceOnTheTrackerPage();
+  orderPizzaPage.validateThePizzaNameOnTheTrackerPage();
+  I.saveScreenshot("pizzaOrderedPage.png");
 }); 

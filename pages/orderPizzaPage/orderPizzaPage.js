@@ -1,12 +1,14 @@
 const { I } = inject();
-import {Assertion } from 'chai';
+import { Assertion } from "chai";
 
 const locators = {
   btnMenuCarta: '[data-quid="main-navigation-menu"]',
   pizzaOption: '[data-quid="entree-title-specialtypizza"]',
   btnClickOnPizzaOption: '[data-quid="entree-title-Pizza"]',
-  selectThePizza: (pizzaName) => `a.btn[data-dpz-track-evt-name="Customize CTA | ${pizzaName}"]`,
-  addPizzaButton: 'a.btn.media__btn.js-customize[data-dpz-track-evt-name^="Customize CTA"]',
+  selectThePizza: (pizzaName) =>
+    `a.btn[data-dpz-track-evt-name="Customize CTA | ${pizzaName}"]`,
+  addPizzaButton:
+    'a.btn.media__btn.js-customize[data-dpz-track-evt-name^="Customize CTA"]',
   crearTuPizzaTitle: 'h1[data-quid="generic-card-overlay-title"]',
   btnAddPizza: 'button[data-quid="add-pizzabuilder-button"]',
   btnContinuarToOrderPizza: 'a[data-quid="order-checkout-button"]',
@@ -16,33 +18,31 @@ const locators = {
   btnVerPromos: '//button[contains(text(), "Ver Promos")]',
   btnContinuarPopUpVerPromos: '//button[contains(text(), "Continuar")]',
   btnContinuarElPedido: 'a[data-quid="continue-checkout-btn"]',
-  txtPopUpOrderDetails: '#js-modalHeader',
-  btnContinuarPopUpOrderDetails: '.js-sam-continue',
-
+  txtPopUpOrderDetails: "#js-modalHeader",
+  btnContinuarPopUpOrderDetails: ".js-sam-continue",
   lblPaymentForm: '[data-quid="payment-type-form"]',
-  optPaymentWithDatafono: '[data-quid="payment-doordebit"]', 
+  optPaymentWithDatafono: '[data-quid="payment-doordebit"]',
   optPaymentWithBizum: '[data-quid="payment-adyen3"]',
   btnPagarYFinalizar: '[data-quid="payment-order-now"]',
-
   fieldCardNumber: () => 'input[data-fieldtype="encryptedCardNumber"]',
   fieldExpirationDate: () => 'input[aria-label="Fecha de expiración"]',
   fieldSecurityCode: () => 'input[data-fieldtype="encryptedSecurityCode"]',
   fieldCardName: () => 'input[name="holderName"]',
-
-  btnPagar: 'button.adyen-checkout__button.adyen-checkout__button--pay',
-
-
+  btnPagar: "button.adyen-checkout__button.adyen-checkout__button--pay",
+  txtPizzaNameOnCheckout: ".order-summary__item__title",
+  pizzaPriceOnTrackerPage: "td.price.itemDetails",
 };
 
 class OrderAPizzaPage {
-    priceOnShoppingCart = '';
+  priceOnShoppingCart = "";
+  pizzaAddedToCart = "";
 
   clickOnMenuCarta() {
     I.click(locators.btnMenuCarta);
     I.waitForElement(locators.pizzaOption, 30);
     I.seeInField(locators.pizzaOption, "Pizzas");
   }
-   
+
   clickOnPizzaOption() {
     I.click(locators.pizzaOption);
     I.waitForElement(locators.addPizzaButton, 30);
@@ -55,7 +55,10 @@ class OrderAPizzaPage {
 
   editYourPizza(pizzaName) {
     I.waitForElement(locators.crearTuPizzaTitle, 30);
-    I.see((`Crea tu Pizza ${pizzaName}`).toUpperCase(), locators.crearTuPizzaTitle);
+    I.see(
+      `Crea tu Pizza ${pizzaName}`.toUpperCase(),
+      locators.crearTuPizzaTitle
+    );
   }
 
   clickOnAddPizza() {
@@ -67,26 +70,27 @@ class OrderAPizzaPage {
     I.waitForElement(locators.btnContinuarToOrderPizza, 30);
     I.click(locators.btnContinuarToOrderPizza);
     I.waitForElement(locators.txtCarrito, 30);
-    I.see('CARRITO', locators.txtCarrito);
+    I.see("CARRITO", locators.txtCarrito);
 
-    priceOnShoppingCart = await I.grabTextFrom('td.price');
-    console.log('price:' + priceOnShoppingCart);
-
-    return priceOnShoppingCart;
+    this.priceOnShoppingCart = await I.grabTextFrom("td.price");
+    return this.priceOnShoppingCart;
   }
 
   validatePizzaIsOnShoppingCart(pizzaName) {
     I.waitForElement(locators.txtPizzaAddedToCart, 30);
 
     I.grabTextFrom(locators.txtPizzaAddedToCart).then((pizzaAddedToCart) => {
-    I.see(pizzaName, pizzaAddedToCart);
-  });
+      I.see(pizzaName, pizzaAddedToCart);
+    });
     I.say(`The pizza "${pizzaName}" is being displayed on the cart!`);
+  }
+  getPizzaAddedToCart() {
+    return pizzaAddedToCart;
   }
 
   clickOnContinuarCheckout() {
     I.click(locators.btnContinueCheckout);
-   
+
     I.wait(1);
 
     if (I.seeElement(locators.btnVerPromos)) {
@@ -98,17 +102,13 @@ class OrderAPizzaPage {
     }
   }
 
-  confirmTheAddress() {
-    // TO DO 
-  }
-
   chooseThePaymentMethod(paymentMethod) {
     I.scrollTo(locators.btnPagarYFinalizar);
     I.waitForElement(locators.btnPagarYFinalizar, 30);
 
-    if(paymentMethod == 'Con datafono') {
+    if (paymentMethod == "Con datafono") {
       I.click(locators.optPaymentWithDatafono);
-    } else if (paymentMethod == 'Bizum') {
+    } else if (paymentMethod == "Bizum") {
       I.click(locators.optPaymentWithBizum);
     }
   }
@@ -118,7 +118,8 @@ class OrderAPizzaPage {
   }
 
   fillInTheCardCredentials(cardCredentials) {
-    const { number, expirationDate, securityCode, tarjetaName } = cardCredentials;
+    const { number, expirationDate, securityCode, tarjetaName } =
+      cardCredentials;
     I.waitForElement(locators.btnPagar, 30);
 
     I.switchTo('iframe[title="Utilice Iframe para el número de tarjeta"]');
@@ -141,17 +142,24 @@ class OrderAPizzaPage {
   }
 
   async validateThePizzaIsBeingPrepared() {
-    I.waitForElement('td.price.itemDetails', 30);
-    const priceCheckoutPage = await I.grabTextFrom('td.price.itemDetails');
-    console.log('price:' + priceCheckoutPage);
-
-    Assertion.assert(priceOnShoppingCart === priceCheckoutPage, 
-      `The prices didn't match. On the Shopping Cart: ${priceOnShoppingCart}, On the Checkout Page: ${priceCheckoutPage}`);
-
-
-    //metodo de pagamento
-    //dados da store (telefono, direcion, metodo de envio)
+    I.waitForElement(locators.pizzaPriceOnTrackerPage, 30);
+    I.see(locators.pizzaPriceOnTrackerPage);
   }
-};
+
+  async validateThePizzaPriceOnTheTrackerPage() {
+    const priceCheckoutPage = await I.grabTextFrom(
+      locators.pizzaPriceOnTrackerPage);
+    Assertion.assert(this.priceOnShoppingCart === priceCheckoutPage,
+      `The prices didn't match. On the Shopping Cart: ${this.priceOnShoppingCart}, On the Checkout Page: ${priceCheckoutPage}`
+    );
+  }
+  
+  async validateThePizzaNameOnTheTrackerPage() {
+    const pizzaNameOnCheckout = await I.grabTextFrom(locators.txtPizzaNameOnCheckout);
+    Assertion.assert(this.pizzaAddedToCart === pizzaNameOnCheckout,
+      `Pizza on the shooping cart (${this.pizzaAddedToCart}) does not match the pizza on the checkout page: (${pizzaNameOnCheckout})`
+    );
+  }
+}
 
 export default new OrderAPizzaPage();
