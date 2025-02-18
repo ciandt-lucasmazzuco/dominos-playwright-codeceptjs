@@ -1,3 +1,5 @@
+const OrderPizzaHelper = require("./helpers/orderPizzaHelper");
+
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
   tests: "./test/test*.js",
@@ -6,20 +8,20 @@ exports.config = {
     Playwright: {
       browser: "chromium",
       url: "https://www-alsea.preprod.golo03.dominos.com",
-      show: true,
+      show: false,
       devtools: true,
       waitForTimeout: 10000,
       trace: false,
       video: false,
-      launchOptions: {
-        args: ["--disable-geolocation"],
-      },
-      contextOptions: {
-        permissions: [],
-      },
     },
     DebugHelper: {
       require: "./debug.helper.js",
+    },
+    LoginHelper: {
+      require: "./helpers/loginHelper.js",
+    },
+    OrderPizzaHelper: {
+      require: "./helpers/orderPizzaHelper.js",
     },
   },
   include: {
@@ -27,6 +29,8 @@ exports.config = {
     loginAccountPage: "./pages/accessPage/loginAccountPage.js",
     createAccountPage: "./pages/accessPage/createAccountPage.js",
     editUserPage: "./pages/editUserPage/editUserPage.js",
+    loginHelper: "./helpers/loginHelper.js", 
+    orderPizzaHelper: "./helpers/orderPizzaHelper.js",
   },
   plugins: {
     screenshotOnFail: {
