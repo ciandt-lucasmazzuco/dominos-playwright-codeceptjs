@@ -1,5 +1,4 @@
 const { I } = inject();
-import { Assertion } from "chai";
 
 const locators = {
   btnMenuCarta: '[data-quid="main-navigation-menu"]',
@@ -18,9 +17,6 @@ const locators = {
   btnVerPromos: 'button:has-text("Ver Promos")',
   btnContinuarPopUpVerPromos: 'button:has-text("Continuar")',
   btnContinuarElPedido: 'a[data-quid="continue-checkout-btn"]',
-
-  btnTest: '.some-container button:has-text("Continuar")',
-
   txtPopUpOrderDetails: "#js-modalHeader",
   btnContinuarPopUpOrderDetails: ".js-sam-continue",
   lblPaymentForm: '[data-quid="payment-type-form"]',

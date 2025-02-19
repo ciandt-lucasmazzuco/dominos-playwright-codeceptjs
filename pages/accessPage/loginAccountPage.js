@@ -15,20 +15,17 @@ const locators = {
 };
 
 class LoginAccountPage {
-  openLoginPage() {
-    try {
-      I.amOnPage("/?marketUrl=dominospizza.es");
-      I.waitForElement("body", 30);
-      I.waitForElement(locators.btnIniciarSesion, 30);
-      I.seeElement(locators.btnIniciarSesion, 30);
-      I.click(locators.btnIniciarSesion);
-    } catch (error) {
-      console.error("Error to load the login page:", error.message);
+  async openLoginPage() {
+    I.amOnPage("/?marketUrl=dominospizza.es");
+    I.waitForElement("body", 30);
 
-      I.saveScreenshot("loginPageError.png");
+    I.denyGeolocationPermission(); 
+  }
 
-      throw new Error(`Failed to load the login page: ${error.message}`);
-    }
+  clickOnIniciarSesion() {
+    I.waitForElement(locators.btnIniciarSesion, 30);
+    I.seeElement(locators.btnIniciarSesion);
+    I.click(locators.btnIniciarSesion);
   }
 
   fillTheLoginCredentials(credentials) {

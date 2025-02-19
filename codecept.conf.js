@@ -1,4 +1,3 @@
-const OrderPizzaHelper = require("./helpers/orderPizzaHelper");
 
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
@@ -8,8 +7,8 @@ exports.config = {
     Playwright: {
       browser: "chromium",
       url: "https://www-alsea.preprod.golo03.dominos.com",
-      show: false,
-      devtools: true,
+      show: true,
+      devtools: false,
       waitForTimeout: 10000,
       trace: false,
       video: false,
@@ -17,11 +16,14 @@ exports.config = {
     DebugHelper: {
       require: "./debug.helper.js",
     },
-    LoginHelper: {
+    loginHelper: {
       require: "./helpers/loginHelper.js",
     },
-    OrderPizzaHelper: {
+    orderPizzaHelper: {
       require: "./helpers/orderPizzaHelper.js",
+    },
+    myPlaywrightHelper: {
+      require: './helpers/myPlaywrightHelper.js'  
     },
   },
   include: {
@@ -31,6 +33,7 @@ exports.config = {
     editUserPage: "./pages/editUserPage/editUserPage.js",
     loginHelper: "./helpers/loginHelper.js", 
     orderPizzaHelper: "./helpers/orderPizzaHelper.js",
+    myPlaywrightHelper: "./helpers/myPlaywrightHelper.js"
   },
   plugins: {
     screenshotOnFail: {

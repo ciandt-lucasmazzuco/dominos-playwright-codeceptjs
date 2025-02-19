@@ -1,10 +1,7 @@
 const { I } = inject();
 
 const locators = {
-  btnClickOnTheProfile: (userName) => ({
-    role: "link",
-    name: `${userName} - visita perfil`,
-  }),
+  btnClickOnTheProfile: (userName) => ({role: "link", name: `${userName} - visita perfil`}),
   txtUserName: (userName) => ({
     xpath: `//*[contains(text(), "${userName} Test")]`,
 }),

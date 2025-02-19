@@ -6,6 +6,7 @@ Feature('Ordering a Pizza');
 
 Before(async ({ I }) => {
   loginAccountPage.openLoginPage();
+  loginAccountPage.clickOnIniciarSesion();
   loginAccountPage.fillTheLoginCredentials({email: 'beatrizfc+20@ciandt.com', password: 'Alsea@2020'});               
   await loginAccountPage.clickOnTheStartSession();
   loginAccountPage.verifyIfUserWasLogged('Hola');
