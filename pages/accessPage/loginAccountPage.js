@@ -3,32 +3,29 @@ const { I } = inject();
 const locators = {
   btnIniciarSesion: '[data-quid="profile-action--login"]',
   lblEmailField: { role: "textbox", name: "E-mail" },
-  fieldEmail: () => '#Email',
-  fieldPassword: () => '#Password',
-  btnIniciarSesionParaEstaOrden: '[data-quid="pizza-profile-login-button-login-once"]',
+  fieldEmail: () => "#Email",
+  fieldPassword: () => "#Password",
+  btnIniciarSesionParaEstaOrden:
+    '[data-quid="pizza-profile-login-button-login-once"]',
   welcomeMessage: { css: '[aria-label="primary"]' },
-  userWasLogged: '.js-loggedInUserName',
-  txtInvalidCredentialsErrorMessage: '.errorText',
+  userWasLogged: ".js-loggedInUserName",
+  txtInvalidCredentialsErrorMessage: ".errorText",
   btnFinishSessionLogoutButton: '[data-quid="nav-sign-out-button"]',
+  btnIniciarSesionSecondOption: ".btn.btn--small.js-loginSubmit",
 };
 
 class LoginAccountPage {
-  openLoginPage() {
-    try {
-      I.amOnPage("/?marketUrl=dominospizza.es");
-      I.waitForElement('body', 30); 
-      pause();
-      I.waitForElement(locators.btnIniciarSesion, 30);
-      I.seeElement(locators.btnIniciarSesion, 30);
-      I.click(locators.btnIniciarSesion);
+  async openLoginPage() {
+    I.amOnPage("/?marketUrl=dominospizza.es");
+    I.waitForElement("body", 30);
 
-    } catch (error) {
-      console.error('Error to load the login page:', error.message);
-      
-      I.saveScreenshot('loginPageError.png');
-      
-      throw new Error(`Failed to load the login page: ${error.message}`);
-    }
+    I.denyGeolocationPermission(); 
+  }
+
+  clickOnIniciarSesion() {
+    I.waitForElement(locators.btnIniciarSesion, 30);
+    I.seeElement(locators.btnIniciarSesion);
+    I.click(locators.btnIniciarSesion);
   }
 
   fillTheLoginCredentials(credentials) {
@@ -39,13 +36,13 @@ class LoginAccountPage {
     I.fillField(locators.fieldPassword(), password);
   }
 
-  clickOnTheStartSession() {
-    I.waitForElement(locators.btnIniciarSesionParaEstaOrden, 30);
-    I.click(locators.btnIniciarSesionParaEstaOrden);
+  async clickOnTheStartSession() {
+    I.checkTheLoginButtonAndClickOnIt();
   }
 
   verifyIfUserWasLogged(userName) {
-    I.waitForElement(locators.welcomeMessage);
+    I.waitForElement(locators.welcomeMessage, 30);
+    I.waitForElement(locators.userWasLogged, 30);
     I.seeElement(locators.userWasLogged);
     I.see(userName, locators.userWasLogged);
   }
@@ -61,6 +58,6 @@ class LoginAccountPage {
     I.waitForElement(locators.btnIniciarSesion, 30);
     I.seeElementInDOM(locators.btnIniciarSesion);
   }
-};
+}
 
 module.exports = new LoginAccountPage();

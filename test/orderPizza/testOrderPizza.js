@@ -4,14 +4,15 @@ const orderPizzaPage = require("../../pages/orderPizzaPage/orderPizzaPage").defa
 
 Feature('Ordering a Pizza');
 
-Before(({ I }) => {
+Before(async ({ I }) => {
   loginAccountPage.openLoginPage();
-  loginAccountPage.fillTheLoginCredentials({email: 'beatrizfc+20@ciandt.com', password: 'Alsea@2020'});
-  loginAccountPage.clickOnTheStartSession();
+  loginAccountPage.clickOnIniciarSesion();
+  loginAccountPage.fillTheLoginCredentials({email: 'beatrizfc+20@ciandt.com', password: 'Alsea@2020'});               
+  await loginAccountPage.clickOnTheStartSession();
   loginAccountPage.verifyIfUserWasLogged('Hola');
 });
 
-Scenario("Order a pizza", ({ I }) => {
+Scenario("Order a pizza", async ({ I }) => {
 
   const cardCredentials = {
     number: '4111-1111-1111-1111',

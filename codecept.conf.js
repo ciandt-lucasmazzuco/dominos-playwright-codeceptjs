@@ -1,3 +1,4 @@
+
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
   tests: "./test/test*.js",
@@ -7,19 +8,22 @@ exports.config = {
       browser: "chromium",
       url: "https://www-alsea.preprod.golo03.dominos.com",
       show: true,
-      devtools: true,
+      devtools: false,
       waitForTimeout: 10000,
       trace: false,
       video: false,
-      launchOptions: {
-        args: ["--disable-geolocation"],
-      },
-      contextOptions: {
-        permissions: [],
-      },
     },
     DebugHelper: {
       require: "./debug.helper.js",
+    },
+    loginHelper: {
+      require: "./helpers/loginHelper.js",
+    },
+    orderPizzaHelper: {
+      require: "./helpers/orderPizzaHelper.js",
+    },
+    myPlaywrightHelper: {
+      require: './helpers/myPlaywrightHelper.js'  
     },
   },
   include: {
@@ -27,6 +31,9 @@ exports.config = {
     loginAccountPage: "./pages/accessPage/loginAccountPage.js",
     createAccountPage: "./pages/accessPage/createAccountPage.js",
     editUserPage: "./pages/editUserPage/editUserPage.js",
+    loginHelper: "./helpers/loginHelper.js", 
+    orderPizzaHelper: "./helpers/orderPizzaHelper.js",
+    myPlaywrightHelper: "./helpers/myPlaywrightHelper.js"
   },
   plugins: {
     screenshotOnFail: {
