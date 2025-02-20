@@ -18,6 +18,7 @@ const locators = {
   btnAddNewAddress: '[data-quid="add-entry"]',
   btnADomicilio: '[data-quid="easy-order-locator-delivery"]',
   btnPedirOnline: '[data-quid="main-navigation-order-online"]',
+  btnHome: '[data-quid="main-navigation-home"]'
 };
 
 class AddTheNewAddressPage {
@@ -63,6 +64,7 @@ class AddTheNewAddressPage {
   }
 
   clickOnTheUserAccount(userNameAccount) {
+    I.waitForElement(locators.lblUserLogged(userNameAccount), 30);
     I.seeElement(locators.lblUserLogged(userNameAccount));
     I.click(locators.lblUserLogged(userNameAccount));
 
@@ -74,7 +76,6 @@ class AddTheNewAddressPage {
     I.click(locators.btnEditMyProfile);
   }
 
-  //tenho que analisar esse ponto ainda
   async clickOnEliminarAddress(addressIndex) {
     I.waitForElement(locators.btnEliminarAddress(addressIndex), 30);
     I.seeElement(locators.btnEliminarAddress(addressIndex));
@@ -82,13 +83,6 @@ class AddTheNewAddressPage {
 
     I.waitForElement(locators.btnConfirmarAddressDeletion, 30);
     I.seeElement(locators.btnConfirmarAddressDeletion);
-
-    // I.waitForElement(locators.txtDireccionGuardada, 30); ///se funcionar tenho que criar um nome generico
-    // I.seeElement(locators.txtDireccionGuardada);
-
-    // const txtDireccionGuardada = await I.grabTextFrom(locators.txtDireccionGuardada);
-    // console.log(txtDireccionGuardada);
-    // I.assertEqual("¡Vaya!", txtDireccionGuardada);
   }
 
   clickOnConfirmarAddressDeletion() {
@@ -96,6 +90,10 @@ class AddTheNewAddressPage {
 
     I.waitForElement(locators.btnAddNewAddress, 30);
     I.seeElement(locators.btnAddNewAddress);
+  }
+
+  clickOnHomeButton(){
+    I.click(locators.btnHome);
   }
 }
 
