@@ -1,13 +1,13 @@
 
 /** @type {CodeceptJS.MainConfig} */
 exports.config = {
-  tests: "./test/test*.js",
+  tests: "./test/**/*Test.js",
   output: "./output",
   helpers: {
     Playwright: {
       browser: "chromium",
       url: "https://www-alsea.preprod.golo03.dominos.com",
-      show: true,
+      show: false,
       devtools: false,
       waitForTimeout: 10000,
       trace: false,

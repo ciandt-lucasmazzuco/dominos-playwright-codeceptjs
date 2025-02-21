@@ -31,6 +31,7 @@ const locators = {
   txtPizzaNameOnCheckout: ".order-summary__item__title",
   pizzaPriceOnTrackerPage: "td.price.itemDetails",
   btnNoGraciasFromAgregarTuOrdemPopUp: 'button:has-text("No, gracias")',
+  btnHome: '[data-quid="main-navigation-home"]',
 };
 
 class OrderAPizzaPage {
@@ -39,10 +40,7 @@ class OrderAPizzaPage {
 
   clickOnMenuCarta() {
     I.click(locators.btnMenuCarta);
-
-    I.waitForElement(locators.btnNoGraciasFromAgregarTuOrdemPopUp, 30);
-    I.seeElement(locators.btnNoGraciasFromAgregarTuOrdemPopUp);
-    I.click(locators.btnNoGraciasFromAgregarTuOrdemPopUp);
+    I.checkTheModalVerPromos();
   }
 
   clickOnPizzaOption() {
@@ -65,11 +63,7 @@ class OrderAPizzaPage {
   }
 
   async clickOnAddPizza() {
-    I.waitForElement(locators.btnAddPizza, 30);
-    I.seeElement(locators.btnAddPizza);
-    I.click(locators.btnAddPizza);
-    I.wait(2);
-    I.click(locators.btnAddPizza);
+    I.clickAddPizzaUntilDisappears();
   }
 
   async clickOnContinue() {
@@ -167,6 +161,10 @@ class OrderAPizzaPage {
 
     I.assertEqual(pizzaNameOnCheckout.trim(), this.pizzaAddedToCart.trim(),
     `Pizza names do not match. Expected: ${this.pizzaAddedToCart}, Found: ${pizzaNameOnCheckout}`);
+  }
+
+  clickOnHomeButton() {
+    I.click(locators.btnHome);
   }
 }
 

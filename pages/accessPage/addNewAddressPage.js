@@ -18,7 +18,6 @@ const locators = {
   btnAddNewAddress: '[data-quid="add-entry"]',
   btnADomicilio: '[data-quid="easy-order-locator-delivery"]',
   btnPedirOnline: '[data-quid="main-navigation-order-online"]',
-  btnHome: '[data-quid="main-navigation-home"]'
 };
 
 class AddTheNewAddressPage {
@@ -63,38 +62,21 @@ class AddTheNewAddressPage {
     I.checkTheModalVerPromos();
   }
 
-  clickOnTheUserAccount(userNameAccount) {
-    I.waitForElement(locators.lblUserLogged(userNameAccount), 30);
-    I.seeElement(locators.lblUserLogged(userNameAccount));
-    I.click(locators.lblUserLogged(userNameAccount));
+  // async clickOnEliminarAddress(addressIndex) {
+  //   I.waitForElement(locators.btnEliminarAddress(addressIndex), 30);
+  //   I.seeElement(locators.btnEliminarAddress(addressIndex));
+  //   I.click(locators.btnEliminarAddress(addressIndex));
 
-    I.waitForElement(locators.btnEditMyProfile, 30);
-    I.seeElement(locators.btnEditMyProfile);
-  }
+  //   I.waitForElement(locators.btnConfirmarAddressDeletion, 30);
+  //   I.seeElement(locators.btnConfirmarAddressDeletion);
+  // }
 
-  clickOnEditMyProfileButton() {
-    I.click(locators.btnEditMyProfile);
-  }
+  // clickOnConfirmarAddressDeletion() {
+  //   I.click(locators.btnConfirmarAddressDeletion);
 
-  async clickOnEliminarAddress(addressIndex) {
-    I.waitForElement(locators.btnEliminarAddress(addressIndex), 30);
-    I.seeElement(locators.btnEliminarAddress(addressIndex));
-    I.click(locators.btnEliminarAddress(addressIndex));
-
-    I.waitForElement(locators.btnConfirmarAddressDeletion, 30);
-    I.seeElement(locators.btnConfirmarAddressDeletion);
-  }
-
-  clickOnConfirmarAddressDeletion() {
-    I.click(locators.btnConfirmarAddressDeletion);
-
-    I.waitForElement(locators.btnAddNewAddress, 30);
-    I.seeElement(locators.btnAddNewAddress);
-  }
-
-  clickOnHomeButton(){
-    I.click(locators.btnHome);
-  }
+  //   I.waitForElement(locators.btnAddNewAddress, 30);
+  //   I.seeElement(locators.btnAddNewAddress);
+  // }
 }
 
 module.exports = new AddTheNewAddressPage();
