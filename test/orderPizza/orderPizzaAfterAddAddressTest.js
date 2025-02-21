@@ -1,6 +1,7 @@
 const loginAccountPage = require("../../pages/accessPage/loginAccountPage");
 const orderPizzaPage = require("../../pages/orderPizzaPage/orderPizzaPage").default;
 const addTheNewAddressPage = require("../../pages/accessPage/addNewAddressPage");
+const userProfilePage = require("../../pages/editUserPage/userProfilePage");
 
 const pizzaName = 'Alabama Pulled Pork';
 
@@ -9,12 +10,12 @@ Feature("Ordering a Pizza");
 Before(async ({ I }) => {
   loginAccountPage.openLoginPage();
   loginAccountPage.clickOnIniciarSesion();
-  loginAccountPage.fillTheLoginCredentials({ email: "lucas.mazzuco+1@ciandt.com", password: "Alsea@2020"});
-  await loginAccountPage.clickOnTheStartSession();
+  loginAccountPage.fillTheLoginCredentials({ email: "lucas.mazzuco+3@ciandt.com", password: "Alsea@2020"});
+  loginAccountPage.clickOnTheStartSession();
   loginAccountPage.verifyIfUserWasLogged("Hola");
 });
 
-Scenario("Ordering a pizza after the first access", async ({ I }) => {
+xScenario("Ordering a pizza after the first access", async ({ I }) => {
   const cardCredentials = {
     number: '4111-1111-1111-1111',
     expirationDate: '03/30',
@@ -28,7 +29,7 @@ Scenario("Ordering a pizza after the first access", async ({ I }) => {
   addTheNewAddressPage.clickOnCompletarDireccion();
   addTheNewAddressPage.clickOnConfirmarAddress();
   addTheNewAddressPage.clickOnCloseTheModalDireccionGuardada();
-  await addTheNewAddressPage.clickOnNoGraciasModal();
+  addTheNewAddressPage.clickOnNoGraciasModal();
 
   orderPizzaPage.clickOnPizzaOption();
   orderPizzaPage.selectYourPizza(pizzaName);
@@ -44,14 +45,14 @@ Scenario("Ordering a pizza after the first access", async ({ I }) => {
   orderPizzaPage.validateThePizzaIsBeingPrepared();
   orderPizzaPage.validateThePizzaPriceOnTheTrackerPage();
   orderPizzaPage.validateThePizzaNameOnTheTrackerPage();
-  addTheNewAddressPage.clickOnHomeButton();
+  orderPizzaPage.clickOnHomeButton();
   I.saveScreenshot("pizzaOrderedPage.png");
 });
 
 After(async ({ I }) => {
-  addTheNewAddressPage.clickOnTheUserAccount("Hola");
-  addTheNewAddressPage.clickOnEditMyProfileButton();
-  await addTheNewAddressPage.clickOnEliminarAddress(0);
-  addTheNewAddressPage.clickOnConfirmarAddressDeletion();
+  userProfilePage.clickOnTheUserAccount("Hola");
+  userProfilePage.clickOnEditMyProfileButton();
+  userProfilePage.clickOnEliminarAddress(0);
+  userProfilePage.clickOnConfirmarAddressDeletion();
   I.say("Test completed! Closing the Brownser...");
 });

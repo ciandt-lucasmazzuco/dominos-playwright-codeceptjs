@@ -54,7 +54,10 @@ class LoginAccountPage {
 
   clickOnFinishSession() {
     I.waitForElement(locators.btnFinishSessionLogoutButton, 30);
+    I.seeElementInDOM(locators.btnFinishSessionLogoutButton);
+    I.wait(2);
     I.click(locators.btnFinishSessionLogoutButton);
+
     I.waitForElement(locators.btnIniciarSesion, 30);
     I.seeElementInDOM(locators.btnIniciarSesion);
   }

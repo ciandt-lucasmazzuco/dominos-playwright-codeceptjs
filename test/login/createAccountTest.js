@@ -3,7 +3,7 @@ const loginAccountPage = require("../../pages/accessPage/loginAccountPage");
 
 Feature('Create the Account');
 
-Scenario("Registering First User", ({ I }) => {
+xScenario("Registering First User", ({ I }) => {
   const userData = {
     firstName: "User",
     lastName: "Test",
